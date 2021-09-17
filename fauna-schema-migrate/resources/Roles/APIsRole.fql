@@ -1,0 +1,8 @@
+CreateRole({
+  name: "APIsRole",
+  privileges: [
+    { resource: Function("CreateUser"), actions: { call: true } },
+    { resource: Function("GetUser"), actions: { call: true } },
+    { resource: Function("UpdateUser"), actions: { call: true } }
+  ]
+})

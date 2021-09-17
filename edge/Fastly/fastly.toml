@@ -1,0 +1,18 @@
+# This file describes a Fastly Compute@Edge package. To learn more visit:
+# https://developer.fastly.com/reference/fastly-toml/
+
+authors = []
+description = "A minimal boilerplate application to bootstrap JavaScript projects on Compute@Edge"
+language = "javascript"
+manifest_version = 1
+name = "compute-at-edge-fauna-api"
+service_id = ""
+
+[local_server]
+  [local_server.backends]
+    [local_server.backends.db_fauna_com]
+      url = "https://db.fauna.com"
+    [local_server.backends.db_eu_fauna_com]
+      url = "https://db.eu.fauna.com"
+    [local_server.backends.s3staticwebsite]
+      url = "http://snow-fdb-appstore.s3-website-us-west-2.amazonaws.com"

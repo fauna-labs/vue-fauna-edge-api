@@ -1,0 +1,8 @@
+CreateIndex({
+  name: "user_by_id",
+  source: Collection("User"),
+  terms: [
+    { field: ["data", "user_id"] }
+  ],
+  unique: true
+})

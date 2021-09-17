@@ -1,28 +1,54 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-app>
+    <v-app-bar
+      app
+      color="primary"
+      dark
+    >
+      <div class="d-flex align-center">
+        <router-link to="/"><h1>Demo</h1></router-link>
+      </div>
+
+      <v-spacer></v-spacer>
+
+      <div v-if="!authenticated">
+        <v-btn text @click="login">
+          Login
+          <v-icon class="ml-1">mdi-account-arrow-left</v-icon>
+        </v-btn>  
+      </div>
+      <v-btn text v-else @click="logout">
+        Logout
+        <v-icon class="ml-1">mdi-account-arrow-right</v-icon>
+      </v-btn>
+    </v-app-bar>
+    <v-main>
+      <router-view/>
+    </v-main>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
+  data: function() {
+    return {}
+  },
+  computed: {
+    authenticated() {
+      return this.$auth.isAuthenticated
+    }
+  },
+  methods: {
+    login() {
+      this.$auth.loginWithRedirect();
+    },
+    async logout() {
+      this.$auth.logout({
+        returnTo: window.location.origin,
+      });
+    }
   }
-}
+};
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>

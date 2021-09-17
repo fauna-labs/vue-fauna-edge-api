@@ -1,0 +1,32 @@
+CreateRole({
+  name: "usersCRUD",
+  privileges: [
+    {
+      resource: Collection("User"),
+      actions: {
+        read: true,
+        write: true,
+        create: true
+      }
+    },
+    {
+      resource: Index("user_by_id"),
+      actions: {
+        unrestricted_read: true,
+        read: false
+      }
+    },
+    {
+      resource: Function("SubToUserID"),
+      actions: {
+        call: true
+      }
+    },
+    {
+      resource: Function("HasScope"),
+      actions: {
+        call: true
+      }
+    }    
+  ]
+})

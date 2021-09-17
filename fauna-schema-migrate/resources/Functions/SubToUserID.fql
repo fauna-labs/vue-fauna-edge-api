@@ -1,0 +1,21 @@
+CreateFunction({
+  name: "SubToUserID",
+  body: Query(
+    Lambda(
+      [],
+      Let(
+        {
+          jwtSub: CurrentIdentity(),
+          delimiterPosition: Add(FindStr(Var("jwtSub"), "|"), 1),
+          delimiterFound: GT(0, Var("delimiterPosition")),
+          userIDFromSub: If(
+            Var("delimiterFound"),
+            SubString(Var("jwtSub"), Var("delimiterPosition")),
+            Var("jwtSub")
+          )
+        },
+        Var("userIDFromSub")
+      )
+    )
+  )
+})
