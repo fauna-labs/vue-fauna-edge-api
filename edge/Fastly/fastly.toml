@@ -6,13 +6,11 @@ description = "A minimal boilerplate application to bootstrap JavaScript project
 language = "javascript"
 manifest_version = 1
 name = "compute-at-edge-fauna-api"
-service_id = ""
+service_id = "27XePZzd8AN8ZdLC5GYN3V"
 
 [local_server]
   [local_server.backends]
-    [local_server.backends.db_fauna_com]
-      url = "https://db.fauna.com"
-    [local_server.backends.db_eu_fauna_com]
+    [local_server.backends.host_fauna]
       url = "https://db.eu.fauna.com"
     [local_server.backends.s3staticwebsite]
-      url = "http://snow-fdb-appstore.s3-website-us-west-2.amazonaws.com"
+      url = "http://bucket.s3-website-us-west-2.amazonaws.com"

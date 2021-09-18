@@ -1,0 +1,27 @@
+CreateFunction({
+  "name": "UpdateUser",
+  "body": Query(Lambda(["ID", "data"], Let([{
+    "match": Match(Index("user_by_id"), Var("ID"))
+  }, {
+    "user": Get(Var("match"))
+  }, {
+    "subToUserID": Call(Function("SubToUserID"), [])
+  }, {
+    "hasUsersWrite": Call(Function("HasScope"), ["users:write"])
+  }], Do(If(Var("hasUsersWrite"), true, If(Equals(Var("subToUserID"), Select(["data", "user_id"], Var("user"))), true, Abort("permission denied"))), Let([{
+    "ref": Select(["ref"], Var("user"), null)
+  }, {
+    "email": Select(["email"], Var("data"), Select(["data", "email"], Var("user"), null))
+  }, {
+    "profile": Select(["profile"], Var("data"), Select(["data", "profile"], Var("user"), null))
+  }, {
+    "updateData": Merge({
+      "email": Var("email")
+    }, {
+      "profile": Var("profile")
+    })
+  }], Update(Var("ref"), {
+    "data": Var("updateData")
+  })), Select(["data"], Get(Var("match"))))))),
+  "role": Role("usersCRUD")
+})

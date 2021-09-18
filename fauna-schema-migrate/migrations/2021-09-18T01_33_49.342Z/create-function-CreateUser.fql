@@ -1,0 +1,19 @@
+CreateFunction({
+  "name": "CreateUser",
+  "body": Query(Lambda(["body"], Let([{
+    "userIDFromSub": Call(Function("SubToUserID"), [])
+  }, {
+    "email": Select(["email"], Var("body"), null)
+  }, {
+    "profile": Select(["profile"], Var("body"), null)
+  }, {
+    "dataForCreate": {
+      "user_id": Var("userIDFromSub"),
+      "email": Var("email"),
+      "profile": Var("profile")
+    }
+  }], Do(Create(Collection("User"), {
+    "data": Var("dataForCreate")
+  }), Var("dataForCreate"))))),
+  "role": Role("usersCRUD")
+})

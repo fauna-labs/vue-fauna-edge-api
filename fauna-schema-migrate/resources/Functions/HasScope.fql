@@ -8,7 +8,7 @@ CreateFunction({
           jwtHasScopes: ContainsField("scope", CurrentToken()),
           scopes: If(Var("jwtHasScopes"), Select(["scope"], CurrentToken()), "")
         },
-        ContainsStr(Var("scopes"), Var("scope"))
+        false
       )
     )
   )

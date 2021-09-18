@@ -24,7 +24,7 @@ async function handleRequest(event) {
   if (method == "GET" &&
     ["", "js", "css", "favicon.ico"].includes(pathname.split("/")[1])) {
 
-    const SPA_HOST = 'snow-fdb-appstore.s3-website-us-west-2.amazonaws.com';
+    const SPA_HOST = 'bucket.s3-website-us-west-2.amazonaws.com'; // an example...point to your own bucket 
     const SPA_BACKEND = 's3staticwebsite';
 
     const s3StaticWebsite = new Request(`http://${SPA_HOST}${pathname}`, {
@@ -134,7 +134,10 @@ async function callUDF(request, formatHandler) {
     // If FQL throws an error, return error
     const faunaErrors = getFaunaError(response);
     if (faunaErrors) {
-      return new Response(faunaErrors.description, { status: faunaErrors.status });
+      return new Response(
+        faunaErrors.description, { 
+          status: faunaErrors.status 
+      });
     } else {
       return new Response(
         JSON.stringify(response.resource), {

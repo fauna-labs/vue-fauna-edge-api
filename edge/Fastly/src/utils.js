@@ -4,7 +4,7 @@
  */
 export function getFaunaError(response) {
   try {
-    const errors = response.errors[0]
+    const errors = response.errors[0];
     let { code, description, cause } = errors;
     let status;
 
@@ -49,17 +49,23 @@ export function getFaunaError(response) {
  * utilize Geo-IP at the Edge functionality 
  */
 export function resolveBackend(request) {
+  var bearerToken, backend, backendUrl, error;
   try {
-    const bearerToken = request.headers.get('Authorization').split('Bearer ')[1];
+    bearerToken = request.headers.get('Authorization').split('Bearer ')[1];
 
-    var backend, backendUrl;
-    backend = 'db_eu_fauna_com';
-    backendUrl = 'https://db.eu.fauna.com';
-
-    return { backend, backendUrl, bearerToken };
+    const dict = new Dictionary('client_serverless_kv');
+    backend = 'host_fauna';
+    backendUrl = `https://${dict.get(backend)}`;
   } catch (e) {
-    console.log(`${e}`);
-    throw e;
+    console.log(`Error resolving backend: ${e}`);
+    error = e;
+  }
+
+  if (bearerToken) {
+    backendUrl = 'https://db.fauna.com';
+    return { backend, backendUrl, bearerToken };
+  } else {
+    throw error;
   }
 }
 

@@ -16,52 +16,69 @@ Imagine a globally distributed database, delivered as SaaS and accessed via API.
 ![image](/images/serverless.png)
 
 ## Sample App
-What this is:
+This sample app is a login and registration workflow for a website. The flow is shown below:
 
 ![app](/images/app.png)
 
 ## Setup
 
+Install dependencies first. It is needed to run "migrations" in the next step.
+```
+npm install
+```
+
 ### 1. Create Fauna Resources:
 Create a database and obtain the "Admin Key" for the setup scripts (in the next step) to access the database.
-1. Signin to Fauna. [Register](https://dashboard.fauna.com/accounts/register) for a free for life developer account
-   if you haven't done so already.
-2. Create a database: 
-   * Name your database, e.g. `demo-api`
-   * Choose a [Region Group](https://docs.fauna.com/fauna/current/api/fql/region_groups#how-to-use-region-groups)
+* Signin to Fauna. [Register](https://dashboard.fauna.com/accounts/register) for a free for life developer account
+  if you haven't done so already.
+* Create a database: 
+  * Name your database, e.g. `demo-api`
+  * Choose a [Region Group](https://docs.fauna.com/fauna/current/api/fql/region_groups#how-to-use-region-groups)
 
-3. Click [Security] in the left sidebar, then click the [New key] button.
-   * In the "New key" form, the current database should already be selected. 
-   * For the "Role" field, leave it as "Admin". Optionally, add a key name. 
-   * Next, click [Save] and copy the key’s secret displayed on the next page. **It is never displayed again.**
+* Click [Security] in the left sidebar, then click the [New key] button.
+  * In the "New key" form, the current database should already be selected. 
+  * For the "Role" field, leave it as "Admin". Optionally, add a key name. 
+  * Next, click [Save] and copy the key’s secret displayed on the next page. **It is never displayed again.**
 
 Run "migrations"
 
-1. Set the `FAUNA_ADMIN_KEY` environment variable to the key you just generated above:
+* Set the `FAUNA_ADMIN_KEY` environment variable to the key you just generated above:
   ```
   export FAUNA_ADMIN_KEY=<<admin key>>
   ```
 
-2. Set the `FAUNADB_DOMAIN` environment variable to one of the following values: `db.fauna.com` or `db.eu.fauna.com` 
+* Set the `FAUNADB_DOMAIN` environment variable to one of the following values: `db.fauna.com` or `db.eu.fauna.com` 
   or `db.us.fauna.com` depending on which [Region Group](https://docs.fauna.com/fauna/current/api/fql/region_groups#how-to-use-region-groups)
   you created your database in.
   ```
   export FAUNADB_DOMAIN=<<db.fauna.com OR db.eu.fauna.com OR db.us.fauna.com>>
   ```
 
-3. Look in the [fauna-schema-migrate/resources](/fauna-schema-migrate/resources) folder and peruse the contents. 
-   These are all the Collections, Indexes, Functions and Roles that we'll be creating using the
-   [fauna-schema-migrate](https://github.com/fauna-labs/fauna-schema-migrate) tool
-   (which should already be installed when you ran `npm install` earlier).
-   In the [fauna-schema-migrate/migrations](/fauna-schema-migrate/migrations) folder,
-   migrations are already pre-generated (from the files in `resources`).
-   So simply run the script command below to apply them:
+* Look in the [fauna-schema-migrate/resources](/fauna-schema-migrate/resources) folder and peruse the contents. 
+  These are all the Collections, Indexes, Functions and Roles that we'll be creating using the
+  [fauna-schema-migrate](https://github.com/fauna-labs/fauna-schema-migrate) tool
+  (which should already be installed when you ran `npm install` earlier).
+  In the [fauna-schema-migrate/migrations](/fauna-schema-migrate/migrations) folder,
+  migrations are already pre-generated (from the files in `resources`).
+  So simply run the script command below to apply them:
 
   ```
   npm run fauna-schema-migrate
   ```
 
-### 2. Setup the backend:
+### 2. Setup External Authentication with Auth0:
+* In your Fauna dashboard, click [Security] in the left sidebar, then click the [Providers] button. 
+  You should notice an `Auth0` "AccessProvider" already created by the migration script. Click the "gear" icon to edit it.  
+* Replace the string `YOURAUTH0DOMAIN` with your actual "Auth0 domain" and click [Update]
+* Copy the `Audience` string for the next step.
+* In Auth0, create a new API:
+  * Identifier = The `Audience` value copied from the previous step
+* Create a new Application (or use an existing one) in Auth0 with these settings:
+  * Application Type = **Single Page Application**
+  * Add Allowed Callback URLs: **http://localhost:8080**
+  * Add Allowed Logout URLs: **http://localhost:8080**
+
+### 3. Edge computing setup:
 
 Follow the instructions for the Edge provider of your choice:
 
@@ -70,9 +87,8 @@ Follow the instructions for the Edge provider of your choice:
 | Fastly        | [README](/edge/Fastly) |
 
 
-### 3. Setup the spa
-
-Edit `.env.development.local`
+### 4. Setup the spa
+In the root of this project, edit `.env.development.local`
 ```
 VUE_APP_AUTH0_DOMAIN=<<Auth0 domain>>
 VUE_APP_AUTH0_CLIENT_ID=<<client_id>>
@@ -80,12 +96,7 @@ VUE_APP_FAUNA_ACCESS_PROVIDER_AUD=<<Fauna AccessProvider Audience>>
 VUE_APP_API_ENDPOINT=<<TBD>>
 ```
 
-Install dependencies
-```
-npm install
-```
-
-Compiles and hot-reloads for development
+Compile and hot-reload for development
 ```
 npm run serve
 ```

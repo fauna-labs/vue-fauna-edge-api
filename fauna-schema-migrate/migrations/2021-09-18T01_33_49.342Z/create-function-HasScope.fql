@@ -1,0 +1,8 @@
+CreateFunction({
+  "name": "HasScope",
+  "body": Query(Lambda(["scope"], Let([{
+    "jwtHasScopes": ContainsField("scope", CurrentToken())
+  }, {
+    "scopes": If(Var("jwtHasScopes"), Select(["scope"], CurrentToken()), "")
+  }], false)))
+})
