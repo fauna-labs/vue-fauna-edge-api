@@ -19,7 +19,8 @@
       </div>
       <v-btn text v-else @click="logout">
         Logout
-        <v-icon class="ml-1">mdi-account-arrow-right</v-icon>
+        <div v-if="email" class="caption ml-2">{{ email }}</div>
+        <v-icon v-else class="ml-1">mdi-account-arrow-right</v-icon>
       </v-btn>
     </v-app-bar>
     <v-main>
@@ -33,7 +34,9 @@
 export default {
   name: 'App',
   data: function() {
-    return {}
+    return {
+      email: undefined
+    }
   },
   computed: {
     authenticated() {

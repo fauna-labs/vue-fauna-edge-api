@@ -61,4 +61,5 @@ Configure these settings:
   ```
   fastly compute deploy
   ```
+  When prompted to provide a domain, click Enter to accept the generated value. Wait a few seconds for the service to deploy. You should see the progress on the terminal.
 

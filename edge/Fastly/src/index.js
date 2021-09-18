@@ -1,5 +1,5 @@
 import {
-  getFaunaError,
+  badRequest, getFaunaError,
   resolveBackend, formatFaunaCallFunction
 } from './utils.js';
 
@@ -7,6 +7,21 @@ addEventListener('fetch', event => event.respondWith(handleRequest(event)));
 
 async function handleRequest(event) {
   const req = event.request;
+
+  if (req.method === "OPTIONS" && req.headers.has("Origin") && (
+    req.headers.has("access-control-request-headers") ||
+    req.headers.has("access-control-request-method"))
+  ) {
+    return event.respondWith(new Response(null, {
+      status: 204,
+      headers: {
+        "access-control-allow-origin": req.headers.get('origin'),
+        "access-control-allow-methods": "GET,HEAD,POST,OPTIONS",
+        "access-control-allow-headers": req.headers.get('access-control-request-headers') || '',
+        "access-control-max-age": 86400,
+      }
+    }));
+  }
 
   const VALID_METHODS = ["GET", "POST", "PUT"];
   if (!VALID_METHODS.includes(req.method)) {
@@ -55,7 +70,7 @@ async function handleRequest(event) {
     try {
       clientGeo = event.client.geo;
       console.log(`clientGeo: ${JSON.stringify(clientGeo, null, 2)}`);
-    } catch(e) {
+    } catch (e) {
       console.log(`there was a problem with event.client.geo: ${e}`);
       clientGeo = { error: `${e}` }
     }
@@ -65,21 +80,18 @@ async function handleRequest(event) {
       }), {
       headers: { "content-type": "application/json;charset=UTF-8" },
       status: 200
-    });  
+    });
   }
 
   // POST /users
   if (method == "POST" && pathname == "/users") {
     try {
       const reqBody = await req.json();
-      if (!reqBody.email) {
-        return new Response('Email is required', { status: 400 });
-      }
       return await callUDF(req, () => {
         return formatFaunaCallFunction('CreateUser', null, reqBody);
       });
     } catch {
-      return new Response('Malformed request body', { status: 400 });
+      return badRequest();
     }
   }
 
@@ -88,7 +100,7 @@ async function handleRequest(event) {
     // GET /users/{id}
     if (method == "GET") {
       return await callUDF(req, () => {
-         return formatFaunaCallFunction('GetUser', userId, null);
+        return formatFaunaCallFunction('GetUser', userId, null);
       });
     }
     // PUT /users/{id}
@@ -99,7 +111,7 @@ async function handleRequest(event) {
           return formatFaunaCallFunction('UpdateUser', userId, reqBody);
         });
       } catch {
-        return new Response('Malformed request body', { status: 400 });
+        return badRequest();
       }
     }
   }
@@ -115,7 +127,7 @@ async function callUDF(request, formatHandler) {
 
     // formatHandler translates REST request into FQL "Call(Function('name'))" equivalent
     const body = formatHandler();
-    
+
     const headers = new Headers({
       "Authorization": `Bearer ${bearerToken}`,
       "Content-Type": "application/json"
@@ -135,15 +147,22 @@ async function callUDF(request, formatHandler) {
     const faunaErrors = getFaunaError(response);
     if (faunaErrors) {
       return new Response(
-        faunaErrors.description, { 
-          status: faunaErrors.status 
+        faunaErrors.description, {
+        headers: { 
+          "content-type": "application/json;charset=UTF-8",
+          "Access-Control-Allow-Origin": "*"
+        },          
+        status: faunaErrors.status
       });
     } else {
       return new Response(
         JSON.stringify(response.resource), {
-        headers: { "content-type": "application/json;charset=UTF-8" },
+        headers: { 
+          "content-type": "application/json;charset=UTF-8",
+          "Access-Control-Allow-Origin": "*"
+        },
         status: 200
-      });  
+      });
     }
   } catch (e) {
     console.log(`${e}`);

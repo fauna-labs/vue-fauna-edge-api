@@ -7,7 +7,7 @@ CreateFunction({
         {
           jwtSub: CurrentIdentity(),
           delimiterPosition: Add(FindStr(Var("jwtSub"), "|"), 1),
-          delimiterFound: GT(0, Var("delimiterPosition")),
+          delimiterFound: GT(Var("delimiterPosition"), 0),
           userIDFromSub: If(
             Var("delimiterFound"),
             SubString(Var("jwtSub"), Var("delimiterPosition")),

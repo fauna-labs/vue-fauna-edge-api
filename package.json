@@ -6,10 +6,11 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "fauna-schema-migrate": "./node_modules/.bin/fauna-schema-migrate apply"    
+    "fauna-schema-migrate": "./node_modules/.bin/fauna-schema-migrate apply"
   },
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.18.0",
+    "atob": "^2.1.2",
     "core-js": "^3.6.5",
     "faunadb": "^4.4.1",
     "vue": "^2.6.11",

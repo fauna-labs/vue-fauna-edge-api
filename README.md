@@ -93,7 +93,7 @@ In the root of this project, edit `.env.development.local`
 VUE_APP_AUTH0_DOMAIN=<<Auth0 domain>>
 VUE_APP_AUTH0_CLIENT_ID=<<client_id>>
 VUE_APP_FAUNA_ACCESS_PROVIDER_AUD=<<Fauna AccessProvider Audience>>
-VUE_APP_API_ENDPOINT=<<TBD>>
+VUE_APP_API_ENDPOINT=<<Deployed API endpoint, e.g. `https://frequently-faithful-mouse.edgecompute.app`>>
 ```
 
 Compile and hot-reload for development

@@ -62,7 +62,7 @@ export function resolveBackend(request) {
   }
 
   if (bearerToken) {
-    backendUrl = 'https://db.fauna.com';
+    backendUrl = 'https://db.eu.fauna.com';
     return { backend, backendUrl, bearerToken };
   } else {
     throw error;
@@ -124,3 +124,9 @@ export function formatFaunaCallFunction(functionName, id, requestBody) {
   return payload;
 }
 
+export function badRequest() {
+  return new Response('Bad request', { 
+    headers: { "access-control-allow-origin": "*" },
+    status: 400 
+  });
+}
