@@ -1,0 +1,7 @@
+CreateFunction({
+  "name": "GetUser",
+  "body": Query(Lambda(["ID"], Let([{
+    "user": Select(["data"], Get(Match(Index("user_by_id"), Var("ID"))))
+  }], Do(If(Equals(CurrentIdentity(), Select(["user_id"], Var("user"))), true, Abort("permission denied")), Var("user"))))),
+  "role": Role("usersCRUD")
+})

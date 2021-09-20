@@ -12,15 +12,15 @@ async function handleRequest(event) {
     req.headers.has("access-control-request-headers") ||
     req.headers.has("access-control-request-method"))
   ) {
-    return event.respondWith(new Response(null, {
+    return new Response(null, {
       status: 204,
       headers: {
-        "access-control-allow-origin": req.headers.get('origin'),
-        "access-control-allow-methods": "GET,HEAD,POST,OPTIONS",
+        "access-control-allow-origin": "*",
+        "access-control-allow-methods": "GET,HEAD,POST,PUT,OPTIONS",
         "access-control-allow-headers": req.headers.get('access-control-request-headers') || '',
         "access-control-max-age": 86400,
       }
-    }));
+    });
   }
 
   const VALID_METHODS = ["GET", "POST", "PUT"];
@@ -39,7 +39,8 @@ async function handleRequest(event) {
   if (method == "GET" &&
     ["", "js", "css", "favicon.ico"].includes(pathname.split("/")[1])) {
 
-    const SPA_HOST = 'bucket.s3-website-us-west-2.amazonaws.com'; // an example...point to your own bucket 
+    // Below is an example. Update and point to your own bucket 
+    const SPA_HOST = 'example-bucket.s3-website-us-west-2.amazonaws.com';
     const SPA_BACKEND = 's3staticwebsite';
 
     const s3StaticWebsite = new Request(`http://${SPA_HOST}${pathname}`, {
@@ -96,13 +97,16 @@ async function handleRequest(event) {
   }
 
   if (pathname.match(`\/users\/[^\/]+(\/)?$`)) {
-    const userId = pathname.split('/')[2];
+
+    const userId = decodeURI(pathname.split('/')[2]);
+
     // GET /users/{id}
     if (method == "GET") {
       return await callUDF(req, () => {
         return formatFaunaCallFunction('GetUser', userId, null);
       });
     }
+
     // PUT /users/{id}
     if (method == "PUT") {
       try {

@@ -15,18 +15,6 @@ CreateRole({
         unrestricted_read: true,
         read: false
       }
-    },
-    {
-      resource: Function("SubToUserID"),
-      actions: {
-        call: true
-      }
-    },
-    {
-      resource: Function("HasScope"),
-      actions: {
-        call: true
-      }
-    }    
+    }
   ]
 })

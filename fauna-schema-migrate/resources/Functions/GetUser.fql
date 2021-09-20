@@ -4,20 +4,12 @@ CreateFunction({
     Lambda(
       ["ID"],
       Let(
-        {
-          user: Select(["data"], Get(Match(Index("user_by_id"), Var("ID")))),
-          subToUserID: Call(Function("SubToUserID"), []),
-          hasUsersRead: Call(Function("HasScope"), ["users:read"])
-        },
+        { user: Select(["data"], Get(Match(Index("user_by_id"), Var("ID")))) },
         Do(
           If(
-            Var("hasUsersRead"),
+            Equals(CurrentIdentity(), Select(["user_id"], Var("user"))),
             true,
-            If(
-              Equals(Var("subToUserID"), Select(["user_id"], Var("user"))),
-              true,
-              Abort("permission denied")
-            )
+            Abort("permission denied")
           ),
           Var("user")
         )
