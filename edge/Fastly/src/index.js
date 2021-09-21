@@ -11,6 +11,7 @@ addEventListener('fetch', event => event.respondWith(handleRequest(event)));
 async function handleRequest(event) {
   const req = event.request;
 
+  // Allows the edge to respond to CORS
   if (req.method === "OPTIONS" && req.headers.has("Origin") && (
     req.headers.has("access-control-request-headers") ||
     req.headers.has("access-control-request-method"))

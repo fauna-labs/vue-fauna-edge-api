@@ -6,7 +6,7 @@ description = "A minimal boilerplate application to bootstrap JavaScript project
 language = "javascript"
 manifest_version = 1
 name = "compute-at-edge-fauna-api"
-service_id = "27XePZzd8AN8ZdLC5GYN3V"
+service_id = ""
 
 [local_server]
   [local_server.backends]

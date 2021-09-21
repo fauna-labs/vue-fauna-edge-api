@@ -47,7 +47,7 @@ Configure these settings:
   export FASTLY_API_TOKEN=<<token>>
   ```
 
-* Install dependencies
+* Install dependencies (make sure you're in the correct folder: `/edge/Fastly`).
   ```
   npm install
   ```

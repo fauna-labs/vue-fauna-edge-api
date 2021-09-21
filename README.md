@@ -22,7 +22,8 @@ This sample app is a login and registration workflow for a website. The flow is 
 
 ## Setup
 
-Install dependencies first. It is needed to run "migrations" in the next step.
+Clone this project. `cd` into the folder and  install dependencies. 
+It is needed to run "migrations" in the next step.
 ```
 npm install
 ```
@@ -73,6 +74,7 @@ Run "migrations"
 * Copy the `Audience` string for the next step.
 * In Auth0, create a new API:
   * Identifier = The `Audience` value copied from the previous step
+  * Signing Algorithm = **RS256**
 * Create a new Application (or use an existing one) in Auth0 with these settings:
   * Application Type = **Single Page Application**
   * Add Allowed Callback URLs: **http://localhost:8080**
@@ -88,9 +90,9 @@ Follow the instructions for the Edge provider of your choice:
 
 
 ### 4. Setup the spa
-In the root of this project, edit `.env.development.local`
+In the root of this project, add a file `.env.development.local` with these contents:
 ```
-VUE_APP_AUTH0_DOMAIN=<<Auth0 domain>>
+VUE_APP_AUTH0_DOMAIN=<<Auth0 domain. e.g. mydomain.auth0.com>>
 VUE_APP_AUTH0_CLIENT_ID=<<client_id>>
 VUE_APP_FAUNA_ACCESS_PROVIDER_AUD=<<Fauna AccessProvider Audience>>
 VUE_APP_API_ENDPOINT=<<Deployed API endpoint, e.g. `https://frequently-faithful-mouse.edgecompute.app`>>
