@@ -8,6 +8,8 @@
     "lint": "vue-cli-service lint",
     "fauna-schema-migrate": "./node_modules/.bin/fauna-schema-migrate apply"
   },
+  "author": "zeekhoo",
+  "license": "MIT-0",
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.18.0",
     "atob": "^2.1.2",

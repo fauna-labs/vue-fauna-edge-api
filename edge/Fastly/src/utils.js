@@ -1,3 +1,6 @@
+// Copyright Fauna, Inc.
+// SPDX-License-Identifier: MIT-0
+
 /* 
  * Fauna embeds its own error “codes” (actually string text) in the response body. 
  * This function parses out the error codes and translate it back to HTTP error codes.
