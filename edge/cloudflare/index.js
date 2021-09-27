@@ -7,7 +7,7 @@ import {customFetch, getFaunaError, getBearerToken} from './utils.js';
 
 const faunaClient = new faunadb.Client({
   secret: 'none',
-  domain: 'db.eu.fauna.com',
+  domain: FAUNADB_DOMAIN,
   fetch: customFetch
 });  
 const {Call, Function} = faunadb.query;
