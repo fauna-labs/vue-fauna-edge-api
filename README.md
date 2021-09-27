@@ -90,7 +90,8 @@ Follow the instructions for the Edge provider of your choice:
 
 | Edge provider | Instructions |
 | ------------- | ------------ |
-| Fastly        | [README](/edge/Fastly) |
+| Fastly        | [README](/edge/fastly) |
+| Cloudflare    | [README](/edge/cloudflare) |
 
 
 ### 4. Setup the spa
