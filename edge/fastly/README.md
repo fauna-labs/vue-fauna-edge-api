@@ -1,6 +1,8 @@
-# Compute@Edge starter kit for JavaScript
+# Compute@Edge Setup
 
-From [Fastly starter kit](https://github.com/fastly/compute-starter-kit-javascript-default)
+> Generated using [Fastly starter kit](https://github.com/fastly/compute-starter-kit-javascript-default)
+
+---
 
 Example Compute @ Edge implementation of GET, PUT, POST /users:
 

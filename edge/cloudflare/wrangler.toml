@@ -1,9 +1,14 @@
-name = "cloudflare"
+# Copyright Fauna, Inc.
+# SPDX-License-Identifier: MIT-0
+
+name = "fauna-edge-api"
 type = "webpack"
 
 account_id = ""
-workers_dev = true
-route = ""
 zone_id = ""
 
-vars = { FAUNADB_DOMAIN = "db.eu.fauna.com" }
+workers_dev = true
+
+route = ""
+
+vars = { FAUNADB_DOMAIN = "db.eu.fauna.com", SPA_HOST = "none" }

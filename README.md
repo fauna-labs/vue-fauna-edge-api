@@ -95,7 +95,7 @@ Follow the instructions for the Edge provider of your choice:
 
 
 ### 4. Setup the spa
-In the root of this project, add a file `.env.development.local` with these contents:
+In the root of this project, add a file `.env.local` with these contents:<a name="finishing"></a>
 ```
 VUE_APP_AUTH0_DOMAIN=<<Auth0 domain. e.g. mydomain.auth0.com>>
 VUE_APP_AUTH0_CLIENT_ID=<<client_id>>
@@ -108,3 +108,8 @@ Compile and hot-reload for development
 npm run serve
 ```
 
+Compile and minify for production<a name="buildprod"></a>
+```
+npm run build
+```
+> Files will be created in `/dist`
