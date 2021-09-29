@@ -37,7 +37,7 @@
    wrangler publish
    ```
 
-5. Return to the [instructions](../../#finishing) to finish setting up the Vue app. 
+5. Return to the [instructions](../../README.md#finishing) to finish setting up the Vue app. 
 
 ---
 
@@ -67,7 +67,7 @@ In Clouldflare:
 
 ### Prerequisites
 Be sure to have already:
-1. [Compiled and minified]((../../#buildprod)) the SPA before beginning.
+1. [Compiled and minified](../../README.md#buildprod) the SPA before beginning.
 2. [Added a Site and Domain](https://support.cloudflare.com/hc/en-us/articles/201720164-Creating-a-Cloudflare-account-and-adding-a-website)
    in Cloudflare.
 3. Deployed the API to your custom domain in the previous step.
