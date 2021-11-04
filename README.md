@@ -1,28 +1,45 @@
 This repository contains unofficial patterns, sample code, or tools to help developers build more effectively with [Fauna][fauna]. All [Fauna Labs][fauna-labs] repositories are provided “as-is” and without support. By using this repository or its contents, you agree that this repository may never be officially supported and moved to the [Fauna organization][fauna-organization].
 
+[fauna]: https://www.fauna.com/
+[fauna-labs]: https://github.com/fauna-labs
+[fauna-organization]: https://github.com/fauna
+
 ---
 
-# fauna-edge-api
+# Introducing "Serverless Database"
 
-The notion that one can just connect any database to the edge simply doesn’t exist. 
-Today, many popular databases used in application development have existed long before edge computing. 
-Within an application “stack,” databases lie connected to app servers and require persistent 
-connection pools, making them incompatible with edge computing architectures.
+Many database options today were created long before edge computing existed and required connections
+to app servers, and persistent connection pools
+-- making them incompatible with the edge computing architectures of today.
 
-Oftentimes, we’ll see a configuration where the API simply gets proxied by the edge. 
+When you have an existing API, you can place it behind the edge in the configuration shown below
 Performance and scaling improvements are realized by caching objects (where possible) at the edge. 
 However, this does not remove the need to operate the server(s) and database. 
 
 ![notserverless](/images/notserverless.png)
 
-Imagine a globally distributed database, delivered as SaaS and accessed via API. This is where Fauna comes into the picture. 
+In order to realize the full promise of scale, resiliency and performance that edge computing provides,
+you need a “globally distributed, serverless database” that the edge functions can access using `fetch`.
+This is where Fauna comes into the picture.
 
 ![image](/images/serverless.png)
 
+---
+
 ## Sample App
-This sample app is a login and registration workflow for a website. The flow is shown below:
+
+To demonstrate the serverless architecture above, this project provides a sample user registration
+app that's implemented using Auth0, Fauna and an Edge Computing provider - **completely serverless**. 
+The flow is illustrated in the following diagram:
 
 ![app](/images/app.png)
+
+
+This project comprises:
+1. A sample Vue application built for the above.
+2. The Fauna schema and implementation (via User Defined Functions) for `GET`, `POST` and `PUT` `/users`
+3. The Edge Computing provider sample code to implement the `GET`, `POST` and `PUT` `/users` routes.
+
 
 ## Setup
 
@@ -86,13 +103,8 @@ Run "migrations"
 
 ### 3. Edge computing setup:
 
-Follow the instructions for the Edge provider of your choice:
-
-| Edge provider | Instructions |
-| ------------- | ------------ |
-| Fastly        | [README](/edge/fastly) |
-| Cloudflare    | [README](/edge/cloudflare) |
-
+Follow the instructions for one of the available
+[edge-gateway-samples](https://github.com/orgs/fauna-labs/repositories?q=edge-gateway-sample)
 
 ### 4. Setup the spa
 In the root of this project, add a file `.env.local` with these contents:<a name="finishing"></a>
