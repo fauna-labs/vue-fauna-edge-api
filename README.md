@@ -107,6 +107,17 @@ Follow the instructions for one of the available
 [edge-gateway-samples](https://github.com/orgs/fauna-labs/repositories?q=edge-gateway-sample)
 
 ### 4. Setup the spa
+
+#### Auth0 setup:
+* From the dashboard, use the left navigator and select Applications > Applications
+* Click the **Create Application** button
+* Provide a name, e.g. `vue-fauna-edge-api`
+* Choose application type = "Single Page Web Applications"
+* Click **Create**
+* In the *Settings* tab, under *Allowed Callback URLs*, enter `http://localhost:8080`
+* Save the changes
+* Locate the *Client ID* and copy it for the next step below 
+
 In the root of this project, add a file `.env.local` with these contents:<a name="finishing"></a>
 ```
 VUE_APP_AUTH0_DOMAIN=<<Auth0 domain. e.g. mydomain.auth0.com>>
